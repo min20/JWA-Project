@@ -7,7 +7,7 @@
 		</encoder>
 	</appender>
 
-	<logger name="net.slipp" level="DEBUG" />
+	<logger name="org.question" level="DEBUG" />
 
 	<logger name="org.springframework" level="INFO" />
 	<logger name="org.springframework.web.bind.annotation.support.HandlerMethodInvoker" level="INFO" />
