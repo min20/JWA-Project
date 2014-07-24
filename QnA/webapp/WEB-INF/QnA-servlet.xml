@@ -9,7 +9,13 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
 	<context:component-scan base-package="org.question.web" />
+	
 	<mvc:annotation-driven />
+	
+	<mvc:resources location="/images/" mapping="/images/**" />
+	<mvc:resources location="/stylesheets/" mapping="/stylesheets/**" />
+	<mvc:resources location="/javascripts/" mapping="/javascripts/**" />
+	
 	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver"
 			p:prefix="/"
 			p:suffix=".jsp" />

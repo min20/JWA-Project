@@ -8,7 +8,7 @@ public class HomeController {
 	
 	@RequestMapping("/")
 	public String home() {
-	//	/home.jsp
+	//	(webapp)/home.jsp과 연결된다.
 		return "home";
 	}
 	
