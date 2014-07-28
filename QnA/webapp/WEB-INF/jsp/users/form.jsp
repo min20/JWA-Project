@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>SLiPP :: 회원가입</title>
+<title>회원가입</title>
 
 <%@ include file="../commons/_header.jspf"%>
 
