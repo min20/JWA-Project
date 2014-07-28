@@ -6,7 +6,7 @@
 	
 	<!-- DATABASE -->
 	<entry key="database.driverClassName">org.h2.Driver</entry>
-	<entry key="database.url">jdbc:h2:~/dev/JavaWebAdv/Database</entry>
+	<entry key="database.url">jdbc:h2:~/dev/JavaWebAdv/Database/org.question</entry>
 	<entry key="database.username">root</entry>
 	<entry key="database.password"></entry>
 </properties>

@@ -7,10 +7,14 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
 
 	<context:property-placeholder location="classpath*:application-properties.xml" />
+
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
 		p:driverClassName="${database.driverClassName}"
 		p:url="${database.url}"
 		p:username="${database.username}"
 		p:password="${database.password}" />
+
+	<bean id="UserDao" class="org.question.dao.users.UserDao"
+		p:dataSource-ref="dataSource" />
 
 </beans>
