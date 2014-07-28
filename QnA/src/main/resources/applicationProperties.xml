@@ -2,7 +2,7 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 
 <properties>
-	<comment>application-properties</comment>
+	<comment>applicationProperties</comment>
 	
 	<!-- DATABASE -->
 	<entry key="database.driverClassName">org.h2.Driver</entry>
