@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class UserController {
-	private static final Logger log = LoggerFactory.getLogger(UserController.class);
+	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 	
 	@RequestMapping("/users/form")
 	public String form() {
@@ -18,7 +18,7 @@ public class UserController {
 	
 	@RequestMapping(value = "/users", method = RequestMethod.POST)
 	public String create(User user) {
-		log.debug("User: {}", user);
+		logger.debug("User: {}", user);
 		return "users/form";
 	}
 	
