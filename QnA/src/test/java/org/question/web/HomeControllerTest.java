@@ -12,9 +12,9 @@ public class HomeControllerTest {
 	@Test
 	public void home() throws Exception {
 		standaloneSetup(new HomeController()).build()
-				.perform(get("/"))
-				.andExpect(status().isOk())
-				.andExpect(forwardedUrl("home"));
+			.perform(get("/"))
+			.andExpect(status().isOk())
+			.andExpect(forwardedUrl("home"));
 	}
 
 }

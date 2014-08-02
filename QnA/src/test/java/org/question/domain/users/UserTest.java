@@ -26,7 +26,7 @@ public class UserTest {
 	}
 
 	@Test
-	public void inputWithEmptyUserId() {
+	public void userWithEmptyUserId() {
 		User user = new User("", "password", "name", "email@question.org");
 		Set<ConstraintViolation<User>> constraintViolations = validator.validate(user);
 		
