@@ -7,11 +7,11 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>회원가입</title>
 
-<%@ include file="../commons/_header.jspf"%>
+<%@ include file="/WEB-INF/jsp/commons/_header.jspf"%>
 
 </head>
 <body>
-	<%@ include file="../commons/_top.jspf"%>
+	<%@ include file="/WEB-INF/jsp/commons/_top.jspf"%>
 
 	<div class="container">
 		<div class="row">
@@ -23,7 +23,7 @@
 					</div>
 
 					<form:form modelAttribute="user" cssClass="form-horizontal"
-						action="/users" method="post">
+						action="/users/signup" method="post">
 						<div class="control-group">
 							<label class="control-label" for="userId">사용자 아이디</label>
 							<div class="controls">
@@ -52,6 +52,7 @@
 								<form:errors path="email" cssClass="error" />
 							</div>
 						</div>
+						
 						<div class="control-group">
 							<div class="controls">
 								<button type="submit" class="btn btn-primary">회원가입</button>

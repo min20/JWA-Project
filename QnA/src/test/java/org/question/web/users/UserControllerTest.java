@@ -32,9 +32,9 @@ public class UserControllerTest {
 	}
 
 	@Test
-	public void createWithValidData() throws Exception {
+	public void signupWithValidData() throws Exception {
 		this.mockMvc.perform(
-				post("/users")
+				post("/users/signup")
 					.param("userId", "userId")
 					.param("password", "password")
 					.param("name", "name")
@@ -45,16 +45,16 @@ public class UserControllerTest {
 	}
 	
 	@Test
-	public void createWithInvalidData() throws Exception {
+	public void signupWithInvalidData() throws Exception {
 		this.mockMvc.perform(
-				post("/users")
+				post("/users/signup")
 					.param("userId", "userId")
 					.param("password", "password")
 					.param("name", "name")
 					.param("email", "nonEmailForm"))
 			.andDo(print())
 			.andExpect(status().isOk())
-			.andExpect(forwardedUrl("users/form"));
+			.andExpect(forwardedUrl("users/signup/form"));
 	}
 
 }
