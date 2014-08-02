@@ -1,22 +1,22 @@
 package org.question.domain.users;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
 
 public class User {
-	@NotNull @Min(4) @Max(20)
+	@NotEmpty @Size(min=4, max=20)
 	private String userId;
 	
-	@NotNull @Min(4) @Max(20)
+	@NotEmpty @Size(min=4, max=20)
 	private String password;
 
-	@NotNull @Max(50)
+	@NotNull @Size(max=100)
 	private String name;
 	
-	@Email @Max(100)
+	@Email @Size(max=200)
 	private String email;
 
 	public User() {
