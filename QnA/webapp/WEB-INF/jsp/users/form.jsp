@@ -17,18 +17,39 @@
 		<div class="row">
 			<div class="span12">
 
+				<c:choose>
+					<c:when test="${empty user.userId}">
+						<c:set var="title" value="회원가입" />
+						<c:set var="method" value="post" />
+						<c:set var="requestURL" value="/users/signup" />
+					</c:when>
+					<c:otherwise>
+						<c:set var="title" value="개인정보수정" />
+						<c:set var="method" value="put" />
+						<c:set var="requestURL" value="/users/update" />
+					</c:otherwise>
+				</c:choose>
+				
 				<section id="typography">
 					<div class="page-header">
-						<h1>회원가입</h1>
+						<h1>${title}</h1>
 					</div>
 
 					<form:form modelAttribute="user" cssClass="form-horizontal"
-						action="/users/signup" method="post">
+						action="${requestURL}" method="${method}">
 						<div class="control-group">
 							<label class="control-label" for="userId">사용자 아이디</label>
 							<div class="controls">
-								<form:input path="userId" />
-								<form:errors path="userId" cssClass="error" />
+								<c:choose>
+									<c:when test="${empty user.userId}">
+										<form:input path="userId" />
+										<form:errors path="userId" cssClass="error" />
+									</c:when>
+									<c:otherwise>
+										<input tpye="text" value="${user.userId}" readonly />
+										<form:hidden path="userId" />
+									</c:otherwise>
+								</c:choose>
 							</div>
 						</div>
 						<div class="control-group">
@@ -52,10 +73,10 @@
 								<form:errors path="email" cssClass="error" />
 							</div>
 						</div>
-						
+
 						<div class="control-group">
 							<div class="controls">
-								<button type="submit" class="btn btn-primary">회원가입</button>
+								<button type="submit" class="btn btn-primary">${title}</button>
 							</div>
 						</div>
 					</form:form>

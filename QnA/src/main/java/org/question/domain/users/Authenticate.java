@@ -1,14 +1,12 @@
 package org.question.domain.users;
 
-import javax.validation.constraints.Size;
-
 import org.hibernate.validator.constraints.NotEmpty;
 
 public class Authenticate {
-	@NotEmpty @Size(min = 4, max = 20)
+	@NotEmpty
 	private String userId;
 
-	@NotEmpty @Size(min = 4, max = 20)
+	@NotEmpty
 	private String password;
 
 	public Authenticate() {

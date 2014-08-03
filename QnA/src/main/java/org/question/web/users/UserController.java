@@ -58,15 +58,44 @@ public class UserController {
 	}
 
 	@RequestMapping("{userId}/form")
-	public String updateUserInfo(@PathVariable String userId, Model model) {
+	public String updateUserInfoForm(@PathVariable String userId, Model model) {
 		if (userId == null) {
 			throw new IllegalArgumentException("로그인이 필요한 서비스입니다.");
 		}
-		
+
 		User user = userDao.selectByUserId(userId);
 		model.addAttribute("user", user);
-		
+
 		return "users/form";
+	}
+
+	@RequestMapping(value = "/update", method = RequestMethod.PUT)
+	public String updateUserInfo(@Valid User user, BindingResult bindingResult, HttpSession session) {
+		String sUserId = (String) session.getAttribute("userId");
+		if (sUserId == null) {
+			return "redirect:/";
+		}
+		
+		if (!user.matchUserId(sUserId)) {
+			return "redirect:/";
+		}
+		
+		logger.debug("UserInput: {}", user);
+
+		if (bindingResult.hasErrors()) {
+			logger.debug("BindingResult has ERROR");
+			List<ObjectError> errors = bindingResult.getAllErrors();
+			for (ObjectError error : errors) {
+				logger.debug("    {}: {}", error.getCode(), error.getDefaultMessage());
+			}
+
+			return "users/form";
+		}
+
+		userDao.update(user);
+		logger.debug("ConfirmDB: {}", userDao.selectByUserId(user.getUserId()));
+
+		return "redirect:/";
 	}
 
 	@RequestMapping("/login/form")

@@ -7,16 +7,20 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
 public class User {
-	@NotEmpty @Size(min=4, max=20)
+	@NotEmpty
+	@Size(min = 4, max = 20)
 	private String userId;
-	
-	@NotEmpty @Size(min=4, max=20)
+
+	@NotEmpty
+	@Size(min = 4, max = 20)
 	private String password;
 
-	@NotNull @Size(max=100)
+	@NotNull
+	@Size(max = 100)
 	private String name;
-	
-	@Email @Size(max=200)
+
+	@Email
+	@Size(max = 200)
 	private String email;
 
 	public User() {
@@ -28,12 +32,20 @@ public class User {
 		this.name = name;
 		this.email = email;
 	}
-	
+
+	public boolean matchUserId(String userId) {
+		if (userId == null) {
+			return false;
+		}
+		
+		return userId.equals(this.userId);
+	}
+
 	public boolean matchPassword(Authenticate authenticate) {
 		if (this.password == null) {
 			return false;
 		}
-		
+
 		return authenticate.matchPassword(this.password);
 	}
 
