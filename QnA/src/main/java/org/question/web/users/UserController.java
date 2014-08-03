@@ -2,6 +2,7 @@ package org.question.web.users;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.question.dao.users.UserDao;
@@ -21,60 +22,76 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("/users")
 public class UserController {
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
-	
+
 	@Autowired
-	private UserDao userDao; 
-	
+	private UserDao userDao;
+
 	@RequestMapping("/signup/form")
-	public String signupForm(Model model) {
+	public String signupForm(Model model, HttpSession session) {
+		if (session.getAttribute("userId") != null) {
+			return "redirect:/";
+		}
+		
 		model.addAttribute("user", new User());
 		return "users/signup/form";
 	}
-	
+
 	@RequestMapping(value = "/signup", method = RequestMethod.POST)
-	public String signup(@Valid  User user, BindingResult bindingResult) {
+	public String signup(@Valid User user, BindingResult bindingResult) {
 		logger.debug("UserInput: {}", user);
-		
+
 		if (bindingResult.hasErrors()) {
 			logger.debug("BindingResult has ERROR");
 			List<ObjectError> errors = bindingResult.getAllErrors();
 			for (ObjectError error : errors) {
 				logger.debug("    {}: {}", error.getCode(), error.getDefaultMessage());
 			}
-			
+
 			return "users/signup/form";
 		}
-		
+
 		userDao.insert(user);
 		logger.debug("ConfirmDB: {}", userDao.selectByUserId(user.getUserId()));
-		
+
 		return "redirect:/";
 	}
-	
+
 	@RequestMapping("/login/form")
-	public String loginForm(Model model) {
+	public String loginForm(Model model, HttpSession session) {
+		if (session.getAttribute("userId") != null) {
+			return "redirect:/";
+		}
+		
 		model.addAttribute("authenticate", new User());
 		return "users/login/form";
 	}
-	
+
 	@RequestMapping("/login")
-	public String login(@Valid Authenticate authenticate, BindingResult bindingResult) {
+	public String login(@Valid Authenticate authenticate, BindingResult bindingResult, HttpSession session, Model model) {
 		if (bindingResult.hasErrors()) {
 			return "users/login/form";
 		}
-		
+
 		User user = userDao.selectByUserId(authenticate.getUserId());
 		if (user == null) {
-			// TODO Exception: NO SUCH USER
+			model.addAttribute("errorMessage", "존재하지 않는 사용자입니다. ID를 확인해주세요.");
+			return "users/login/form";
 		}
-		
-		if (!user.getPassword().equals(authenticate.getPassword())) {
-			// TODO Exception: INCORRECT PASSWORD
+
+		if (!user.matchPassword(authenticate)) {
+			model.addAttribute("errorMessage", "비밀번호가 틀립니다.");
+			return "users/login/form";
 		}
+
+		session.setAttribute("userId", user.getUserId());
+		return "redirect:/";
+	}
+	
+	@RequestMapping("/logout")
+	public String logout(HttpSession session) {
+		session.removeAttribute("userId");
 		
-		// TODO Create Session and save user info.
-		
-		return "/";
+		return "redirect:/";
 	}
 	
 }
