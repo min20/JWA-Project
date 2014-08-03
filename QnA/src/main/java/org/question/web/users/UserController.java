@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -31,9 +32,9 @@ public class UserController {
 		if (session.getAttribute("userId") != null) {
 			return "redirect:/";
 		}
-		
+
 		model.addAttribute("user", new User());
-		return "users/signup/form";
+		return "users/form";
 	}
 
 	@RequestMapping(value = "/signup", method = RequestMethod.POST)
@@ -47,7 +48,7 @@ public class UserController {
 				logger.debug("    {}: {}", error.getCode(), error.getDefaultMessage());
 			}
 
-			return "users/signup/form";
+			return "users/form";
 		}
 
 		userDao.insert(user);
@@ -56,42 +57,54 @@ public class UserController {
 		return "redirect:/";
 	}
 
+	@RequestMapping("{userId}/form")
+	public String updateUserInfo(@PathVariable String userId, Model model) {
+		if (userId == null) {
+			throw new IllegalArgumentException("로그인이 필요한 서비스입니다.");
+		}
+		
+		User user = userDao.selectByUserId(userId);
+		model.addAttribute("user", user);
+		
+		return "users/form";
+	}
+
 	@RequestMapping("/login/form")
 	public String loginForm(Model model, HttpSession session) {
 		if (session.getAttribute("userId") != null) {
 			return "redirect:/";
 		}
-		
+
 		model.addAttribute("authenticate", new User());
-		return "users/login/form";
+		return "users/login";
 	}
 
 	@RequestMapping("/login")
 	public String login(@Valid Authenticate authenticate, BindingResult bindingResult, HttpSession session, Model model) {
 		if (bindingResult.hasErrors()) {
-			return "users/login/form";
+			return "users/login";
 		}
 
 		User user = userDao.selectByUserId(authenticate.getUserId());
 		if (user == null) {
 			model.addAttribute("errorMessage", "존재하지 않는 사용자입니다. ID를 확인해주세요.");
-			return "users/login/form";
+			return "users/login";
 		}
 
 		if (!user.matchPassword(authenticate)) {
 			model.addAttribute("errorMessage", "비밀번호가 틀립니다.");
-			return "users/login/form";
+			return "users/login";
 		}
 
 		session.setAttribute("userId", user.getUserId());
 		return "redirect:/";
 	}
-	
+
 	@RequestMapping("/logout")
 	public String logout(HttpSession session) {
 		session.removeAttribute("userId");
-		
+
 		return "redirect:/";
 	}
-	
+
 }

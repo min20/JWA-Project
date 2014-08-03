@@ -54,7 +54,7 @@ public class UserControllerTest {
 					.param("email", "nonEmailForm"))
 			.andDo(print())
 			.andExpect(status().isOk())
-			.andExpect(forwardedUrl("users/signup/form"));
+			.andExpect(forwardedUrl("users/form"));
 	}
 
 }
