@@ -4,14 +4,13 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotEmpty;
 
 public class User {
-	@NotEmpty
+	@NotNull
 	@Size(min = 4, max = 20)
 	private String userId;
 
-	@NotEmpty
+	@NotNull
 	@Size(min = 4, max = 20)
 	private String password;
 
