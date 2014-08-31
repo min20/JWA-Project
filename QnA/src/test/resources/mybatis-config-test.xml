@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+	PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<!-- dtd 문서를 참고하여 configuration 하위 옵션들의 순서를 반드시 준수할 것! -->
+<configuration>
+	<typeAliases>
+		<typeAlias alias="User" type="org.question.domain.users.User"/>
+	</typeAliases>
+
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<property name="driver" value="org.h2.Driver" />
+				<property name="url" value="jdbc:h2:~/dev/JavaWebAdv/Database/org.question" />
+				<property name="username" value="root" />
+				<property name="password" value="" />
+			</dataSource>
+		</environment>
+	</environments>
+
+	<mappers>
+		<mapper resource="org/question/dao/users/UserMapper.xml" />
+	</mappers>
+</configuration>
