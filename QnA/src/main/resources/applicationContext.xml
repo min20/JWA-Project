@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:p="http://www.springframework.org/schema/p"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
@@ -10,12 +9,24 @@
 	<context:annotation-config />
 
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
-		p:driverClassName="${database.driverClassName}"
-		p:url="${database.url}"
-		p:username="${database.username}"
-		p:password="${database.password}" />
+		p:driverClassName="${database.driverClassName}" p:url="${database.url}"
+		p:username="${database.username}" p:password="${database.password}" />
 
-	<bean id="UserDao" class="org.question.dao.users.UserDao"
+	<!-- MyBatis Settings -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean"
+		p:dataSource-ref="dataSource" p:mapperLocations="classpath:org/question/dao/users/UserMapper.xml" />
+
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="sqlSessionFactory" />
+	</bean>
+
+	<!-- DAO Setting -->
+<!--
+	<bean id="UserDao" class="org.question.dao.users.JdbcUserDao"
+		p:dataSource-ref="dataSource" />
+-->
+	<bean id="UserDao" class="org.question.dao.users.MyBatisUserDao"
+		p:sqlSession-ref="sqlSession"
 		p:dataSource-ref="dataSource" />
 
 </beans>

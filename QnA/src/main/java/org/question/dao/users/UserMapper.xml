@@ -5,11 +5,15 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 	
 <mapper namespace="UserMapper">
-	<select id="selectByUserId" resultType="User">
+	<select id="selectByUserId" resultType="org.question.domain.users.User">
 		SELECT * FROM USERS WHERE userId = #{userId}
 	</select>
 	
 	<insert id="insert">
 		INSERT INTO USERS VALUES (#{userId}, #{password}, #{name}, #{email})
 	</insert>
+	
+	<update id="update">
+		UPDATE USERS SET password = #{password}, name = #{name}, email = #{email} WHERE userId = #{userId}
+	</update>
 </mapper>
