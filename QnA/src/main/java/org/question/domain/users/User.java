@@ -47,6 +47,14 @@ public class User {
 
 		return authenticate.matchPassword(this.password);
 	}
+	
+	public User update(User updateUser) {
+		if (!matchUserId(updateUser.getUserId())){
+			throw new IllegalArgumentException();
+		}
+		
+		return new User(this.userId, updateUser.password, updateUser.name, updateUser.email);
+	}
 
 	@Override
 	public int hashCode() {

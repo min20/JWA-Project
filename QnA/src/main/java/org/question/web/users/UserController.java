@@ -76,17 +76,13 @@ public class UserController {
 			return "redirect:/";
 		}
 		
-		if (!user.matchUserId(sUserId)) {
-			return "redirect:/";
-		}
-		
 		logger.debug("UserInput: {}", user);
 
 		if (bindingResult.hasErrors()) {
 			logger.debug("BindingResult has ERROR");
 			List<ObjectError> errors = bindingResult.getAllErrors();
 			for (ObjectError error : errors) {
-				logger.debug("    {}: {}", error.getCode(), error.getDefaultMessage());
+				logger.debug("{}: {}", error.getCode(), error.getDefaultMessage());
 			}
 
 			return "users/form";
