@@ -14,18 +14,15 @@
 
 	<!-- MyBatis Settings -->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean"
-		p:dataSource-ref="dataSource" p:mapperLocations="classpath:org/question/dao/users/UserMapper.xml" />
+		p:dataSource-ref="dataSource"
+		p:configLocation="classpath:mybatis-config.xml" />
 
 	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
 		<constructor-arg index="0" ref="sqlSessionFactory" />
 	</bean>
 
 	<!-- DAO Setting -->
-<!--
-	<bean id="UserDao" class="org.question.dao.users.JdbcUserDao"
-		p:dataSource-ref="dataSource" />
--->
-	<bean id="UserDao" class="org.question.dao.users.MyBatisUserDao"
+ 	<bean id="UserDao" class="org.question.dao.users.MyBatisUserDao"
 		p:sqlSession-ref="sqlSession"
 		p:dataSource-ref="dataSource" />
 
