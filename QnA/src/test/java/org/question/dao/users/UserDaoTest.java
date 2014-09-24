@@ -3,6 +3,8 @@ package org.question.dao.users;
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
+import java.lang.reflect.Proxy;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.question.domain.users.User;
@@ -31,6 +33,19 @@ public class UserDaoTest {
 		User user = new User("leegyeongmin", "1234", "이경민", "min20@neighbor.com");
 		userDao.insert(user);
 		User selectedUser = userDao.selectByUserId(user.getUserId());
+		assertThat(selectedUser, is(user));
+	}
+	
+	@Test
+	public void testUserDaoWithTimeLogger() {
+		UserDao daoWithTimeLogger = (UserDao)Proxy.newProxyInstance(
+				getClass().getClassLoader(),
+				new Class[] {UserDao.class},
+				new UserDaoWithTimeLogger(userDao));
+		
+		User user = new User("leegyeongmin", "1234", "이경민", "min20@neighbor.com");
+		daoWithTimeLogger.insert(user);
+		User selectedUser = daoWithTimeLogger.selectByUserId(user.getUserId());
 		assertThat(selectedUser, is(user));
 	}
 
