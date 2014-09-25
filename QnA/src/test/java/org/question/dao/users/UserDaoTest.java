@@ -1,7 +1,7 @@
 package org.question.dao.users;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 
 import java.lang.reflect.Proxy;
 
@@ -13,9 +13,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:/applicationContext.xml")
+@TransactionConfiguration(transactionManager="transactionManager", defaultRollback=true)
+@Transactional
 public class UserDaoTest {
 	private static final Logger logger = LoggerFactory.getLogger(UserDaoTest.class);
 	
@@ -30,7 +34,7 @@ public class UserDaoTest {
 	
 	@Test
 	public void insert() {
-		User user = new User("leegyeongmin", "1234", "이경민", "min20@neighbor.com");
+		User user = new User("leegyeongmin1234", "1234", "이경민", "min20@neighbor.com");
 		userDao.insert(user);
 		User selectedUser = userDao.selectByUserId(user.getUserId());
 		assertThat(selectedUser, is(user));
@@ -43,7 +47,7 @@ public class UserDaoTest {
 				new Class[] {UserDao.class},
 				new UserDaoWithTimeLogger(userDao));
 		
-		User user = new User("leegyeongmin", "1234", "이경민", "min20@neighbor.com");
+		User user = new User("leegyeongmin1234", "1234", "이경민", "min20@neighbor.com");
 		daoWithTimeLogger.insert(user);
 		User selectedUser = daoWithTimeLogger.selectByUserId(user.getUserId());
 		assertThat(selectedUser, is(user));
